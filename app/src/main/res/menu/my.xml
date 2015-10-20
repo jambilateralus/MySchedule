@@ -3,7 +3,7 @@
     tools:context=".MyActivity" >
 
     <item android:id="@+id/action_calender"
-        android:title="Calender view"
+        android:title="Calendar view"
         android:orderInCategory="100"
         android:showAsAction="never" />
 
