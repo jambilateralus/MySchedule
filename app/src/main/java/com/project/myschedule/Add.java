@@ -9,7 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
-
+import android.widget.EditText;
+import android.widget.Toast;
 import java.util.Calendar;
 
 
@@ -28,6 +29,10 @@ public class Add extends Activity {
     Button fButton;
     Button tButton;
 
+    //Schedule title
+    EditText schedule_title;
+    String title;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -37,7 +42,7 @@ public class Add extends Activity {
         //Assign current date to variables.
         final Calendar c = Calendar.getInstance();
         mYear = c.get(Calendar.YEAR);
-        mMonth = c.get(Calendar.MONTH);
+        mMonth = c.get(Calendar.MONTH)+1;
         mDay = c.get(Calendar.DAY_OF_MONTH);
 
         //Get references of buttons
@@ -45,8 +50,8 @@ public class Add extends Activity {
         tButton = (Button) findViewById(R.id.till_button);
 
         //Set label of buttons to current date
-        fButton.setText(mYear+"/"+mMonth+"/"+mDay);
-        tButton.setText(mYear+"/"+mMonth+"/"+mDay);
+        fButton.setText(mDay + "/" + mMonth + "/" + mYear);
+        tButton.setText(mDay + "/" + mMonth + "/" + mYear);
 
         //Set click listener on fButton
         fButton.setOnClickListener(new View.OnClickListener() {
@@ -74,7 +79,7 @@ public class Add extends Activity {
                 public void onDateSet(DatePicker view, int yearSelected,
                                       int monthOfYear, int dayOfMonth) {
                     year = yearSelected;
-                    month = monthOfYear;
+                    month = monthOfYear+1;
                     day = dayOfMonth;
                     // Set the Selected Date in Select date Button
                     fButton.setText(day + "/" + month + "/" + year);
@@ -88,7 +93,7 @@ public class Add extends Activity {
                 public void onDateSet(DatePicker view, int yearSelected,
                                       int monthOfYear, int dayOfMonth) {
                     year = yearSelected;
-                    month = monthOfYear;
+                    month = monthOfYear+1;
                     day = dayOfMonth;
                     // Set the Selected Date in Select date Button
                     tButton.setText(day + "/" + month + "/" + year);
@@ -124,11 +129,20 @@ public class Add extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        schedule_title = (EditText) findViewById(R.id.schedule_title);
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_done) {
+
+            //Check if Schedule title is empty and toast an error message.
+            title = schedule_title.getText().toString();
+            if (title.matches("")) {
+                Toast.makeText(this, "Invalid schedule name.", Toast.LENGTH_SHORT).show();
+            }
+
+
             return true;
         }
         return super.onOptionsItemSelected(item);
