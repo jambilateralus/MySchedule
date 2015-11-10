@@ -30,11 +30,19 @@ public class MyActivity extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         Intent add = new Intent("com.project.myschedule.ADD");
+
+        //creating intent for activity to be done
+        Intent cadd = new Intent("android.intent.action.CalenderView");
+
         if (id == R.id.action_settings) {
             return true;
         }else if(id==R.id.action_add){
 
             startActivity(add);
+        }
+        else if(id==R.id.action_calender){
+
+            startActivity(cadd);
         }
         return super.onOptionsItemSelected(item);
     }

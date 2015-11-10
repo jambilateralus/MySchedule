@@ -25,14 +25,22 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".Add"
             android:label="@string/title_activity_add" >
             <intent-filter>
-            <action android:name="com.project.myschedule.ADD" />
+                <action android:name="com.project.myschedule.ADD" />
 
-            <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".CalenderView"
+            android:label="@string/title_activity_calender_view" >
+            <intent-filter>
+                <action android:name="android.intent.action.CalenderView" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
     </application>
