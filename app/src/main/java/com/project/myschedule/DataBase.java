@@ -49,7 +49,7 @@ private static class DbHelper extends SQLiteOpenHelper{
 
     }
 
-    //if already have DAtabase
+    //if already have DAtabase in system
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " +DATABASE_TABLE);
