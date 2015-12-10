@@ -1,6 +1,8 @@
 package com.project.myschedule;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -11,7 +13,7 @@ import java.util.Date;
  */
 public class DataBase {
     //Private variables and constant variables for schedule table
-    public static  final String KEY_ROWID = "_id";
+    public static  final String KEY_ROWID = "schedule_id";
     public static  final String KEY_TITTLE = "schedule_title";
     public static  final String KEY_FROM = "from";
     public static  final String KEY_TILL = "till";
@@ -77,8 +79,32 @@ private static class DbHelper extends SQLiteOpenHelper{
     }
 
     //insert query
-    public void createEntry(String title, Date from, Date till){
+    public long addSchedule(String title, Date from, Date till){
+        ContentValues cv = new ContentValues();
+        cv.put(KEY_TITTLE,title);
+        cv.put(KEY_FROM, String.valueOf(from));
+        cv.put(KEY_TILL, String.valueOf(till));
+        return ourDatabase.insert(DATABASE_TABLE,null,cv);
 
+    }
+
+    //view querry
+    public String getSchedule(){
+        String[] columns = new String[]{KEY_ROWID, KEY_TITTLE, KEY_FROM, KEY_TILL};
+        Cursor c = ourDatabase.query(DATABASE_TABLE,columns,null,null,null,null,null);
+        String result= "";
+
+        int iRow =c.getColumnIndex(KEY_ROWID);
+        int iTitle =c.getColumnIndex(KEY_TITTLE);
+        int iFrom =c.getColumnIndex(KEY_FROM);
+        int iTill =c.getColumnIndex(KEY_TILL);
+
+        for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext()){
+            result = result + c.getString(iRow) +" "+ c.getString(iTitle)+" "+c.getString(iFrom)+" "+c.getString(iTill)+"\n";
+        }
+
+
+        return result;
     }
 
 }//end DataBAse
