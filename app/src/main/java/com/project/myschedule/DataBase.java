@@ -88,7 +88,7 @@ private static class DbHelper extends SQLiteOpenHelper{
 
     }
 
-    //view querry
+    //view query
     public String getSchedule(){
         String[] columns = new String[]{KEY_ROWID, KEY_TITTLE, KEY_FROM, KEY_TILL};
         Cursor c = ourDatabase.query(DATABASE_TABLE,columns,null,null,null,null,null);
