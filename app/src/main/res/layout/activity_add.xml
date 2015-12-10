@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:hint="Schedule Title"
             android:layout_height="wrap_content"
-            android:id="@+id/editText3"
+            android:id="@+id/schedule_title"
             android:layout_gravity="center_horizontal" />
 
         <LinearLayout
