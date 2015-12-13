@@ -3,6 +3,7 @@ package com.project.myschedule;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,8 +11,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.util.Calendar;
+import java.util.Date;
 
 
 public class Add extends Activity {
@@ -134,17 +137,44 @@ public class Add extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        Intent Goto = new Intent("com.project.myschedule.MyActivity");
         if (id == R.id.action_done) {
 
             //Check if Schedule title is empty and toast an error message.
             title = schedule_title.getText().toString();
             if (title.matches("")) {
                 Toast.makeText(this, "Invalid schedule name.", Toast.LENGTH_SHORT).show();
+            }else{
+                boolean ditItWork =true;
+                try {
+                    //database action add sechudule
+                    String from = fButton.getText().toString();
+                    String till = tButton.getText().toString();
+                    DataBase add = new DataBase(Add.this);
+                    add.open();
+                    add.addSchedule(title, from, till);
+                    add.close();
+                }catch (Exception e){
+                    ditItWork = false;
+
+                }finally {
+                    if(!ditItWork){
+                        Dialog d = new Dialog(this);
+                        d.setTitle("Yo Myan !");
+                        TextView tv = new TextView(this);
+                        tv.setText("Something Got Wrong!");
+                        d.setContentView(tv);
+                        d.show();
+                    }
+                }
+
+
             }
-
-
             return true;
+
+
         }
+        startActivity(Goto);
         return super.onOptionsItemSelected(item);
     }
 

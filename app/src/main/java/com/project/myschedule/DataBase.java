@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.sql.SQLException;
 import java.util.Date;
 
 /**
@@ -15,8 +16,8 @@ public class DataBase {
     //Private variables and constant variables for schedule table
     public static  final String KEY_ROWID = "schedule_id";
     public static  final String KEY_TITTLE = "schedule_title";
-    public static  final String KEY_FROM = "from";
-    public static  final String KEY_TILL = "till";
+    public static  final String KEY_FROM = "date_from";
+    public static  final String KEY_TILL = "date_till";
 
     //variables for database
     private static final String DATABASE_NAME ="MySchedule";
@@ -42,11 +43,11 @@ private static class DbHelper extends SQLiteOpenHelper{
     //method to create database for first time
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL("CREATE TABLE " +DATABASE_TABLE + " (" +
+        sqLiteDatabase.execSQL("CREATE TABLE " +DATABASE_TABLE + "(" +
                                KEY_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
                                KEY_TITTLE +" TEXT NOT NULL, "+
-                               KEY_FROM +" DATE NOT NULL, "+
-                               KEY_TILL +" DATE NOT NULL);"
+                               KEY_FROM +" TEXT NOT NULL, "+
+                               KEY_TILL +" TEXT NOT NULL);"
         );
 
     }
@@ -79,7 +80,7 @@ private static class DbHelper extends SQLiteOpenHelper{
     }
 
     //insert query
-    public long addSchedule(String title, Date from, Date till){
+    public long addSchedule(String title, String from, String till){
         ContentValues cv = new ContentValues();
         cv.put(KEY_TITTLE,title);
         cv.put(KEY_FROM, String.valueOf(from));
@@ -100,7 +101,7 @@ private static class DbHelper extends SQLiteOpenHelper{
         int iTill =c.getColumnIndex(KEY_TILL);
 
         for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext()){
-            result = result + c.getString(iRow) +" "+ c.getString(iTitle)+" "+c.getString(iFrom)+" "+c.getString(iTill)+"\n";
+            result = result +" "+ c.getString(iTitle)+"        "+c.getString(iFrom)+"      "+c.getString(iTill)+" \n";
         }
 
 
