@@ -137,8 +137,9 @@ public class Add extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        Intent Goto = new Intent("com.project.myschedule.MyActivity");
+
         if (id == R.id.action_done) {
+
 
             //Check if Schedule title is empty and toast an error message.
             title = schedule_title.getText().toString();
@@ -167,14 +168,11 @@ public class Add extends Activity {
                         d.show();
                     }
                 }
-
-
+                Intent Goto = new Intent("com.project.myschedule.MYACTIVITY");
+                startActivity(Goto);
             }
-            return true;
-
-
         }
-        startActivity(Goto);
+
         return super.onOptionsItemSelected(item);
     }
 
