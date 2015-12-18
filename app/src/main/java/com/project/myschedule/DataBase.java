@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -89,23 +90,43 @@ private static class DbHelper extends SQLiteOpenHelper{
 
     }
 
-    //view query
-    public String getSchedule(){
+
+    //Get total number of schedule
+    public int getScheduleCount(){
+        String[] columns = new String[]{KEY_ROWID, KEY_TITTLE, KEY_FROM, KEY_TILL};
+        Cursor c = ourDatabase.query(DATABASE_TABLE, columns, null, null, null, null, null);
+        return c.getCount();
+    }
+
+    //Get schedule title
+    public String getScheduleTitle(int position){
+        String[] columns = new String[]{KEY_ROWID, KEY_TITTLE, KEY_FROM, KEY_TILL};
+        Cursor c = ourDatabase.query(DATABASE_TABLE, columns, null, null, null, null, null);
+        int iTitle =c.getColumnIndex(KEY_TITTLE);
+        c.moveToPosition(position);
+        return c.getString(iTitle);
+    }
+
+
+
+
+    //Get schedule from date
+    public String getScheduleFromDate(int index){
         String[] columns = new String[]{KEY_ROWID, KEY_TITTLE, KEY_FROM, KEY_TILL};
         Cursor c = ourDatabase.query(DATABASE_TABLE,columns,null,null,null,null,null);
-        String result= "";
-
-        int iRow =c.getColumnIndex(KEY_ROWID);
-        int iTitle =c.getColumnIndex(KEY_TITTLE);
+        c.moveToPosition(index);
         int iFrom =c.getColumnIndex(KEY_FROM);
+        return c.getString(iFrom);
+    }
+
+
+    //Get schedule to date
+    public String getScheduleToDate(int index){
+        String[] columns = new String[]{KEY_ROWID, KEY_TITTLE, KEY_FROM, KEY_TILL};
+        Cursor c = ourDatabase.query(DATABASE_TABLE,columns,null,null,null,null,null);
+        c.moveToPosition(index);
         int iTill =c.getColumnIndex(KEY_TILL);
-
-        for(c.moveToFirst(); !c.isAfterLast(); c.moveToNext()){
-            result = result +" "+ c.getString(iTitle)+"        "+c.getString(iFrom)+"      "+c.getString(iTill)+" \n";
-        }
-
-
-        return result;
+        return c.getString(iTill);
     }
 
 }//end DataBAse

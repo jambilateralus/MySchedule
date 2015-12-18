@@ -2,9 +2,14 @@ package com.project.myschedule;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.CursorAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 
@@ -14,12 +19,32 @@ public class MyActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
-        TextView tv = (TextView)findViewById(R.id.tvScheduleView);
-        DataBase view = new DataBase(this);
-        view.open();
-        String data = view.getSchedule();
-        view.close();
-        tv.setText(data);
+
+
+        ListView lv = (ListView) findViewById(R.id.listView);
+        DataBase db = new DataBase(this);
+        db.open();
+        String[] scheduleTile = new String[db.getScheduleCount()];
+        String[] scheduleTo = new String[db.getScheduleCount()];
+        String[] scheduleFrom = new String[db.getScheduleCount()];
+
+
+       //Load database contents to arrays
+        for (int i = 0; i < db.getScheduleCount(); i++) {
+            scheduleTile[i] = db.getScheduleTitle(i);
+            scheduleTo[i] = db.getScheduleToDate(i);
+            scheduleFrom[i] = db.getScheduleFromDate(i);
+        }
+        db.close();
+
+
+
+        //set custom adapter to list view
+        ScheduleAdapter adpt = new ScheduleAdapter(this,scheduleTile,scheduleTo,scheduleFrom);
+        lv.setAdapter(adpt);
+
+
+
 
     }
 
@@ -44,14 +69,20 @@ public class MyActivity extends Activity {
 
         if (id == R.id.action_settings) {
             return true;
-        }else if(id==R.id.action_add){
+        } else if (id == R.id.action_add) {
 
             startActivity(add);
-        }
-        else if(id==R.id.action_calender){
+        } else if (id == R.id.action_calender) {
 
             startActivity(cadd);
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //finish();
+    }
 }
+

@@ -178,7 +178,10 @@ public class Add extends Activity {
 
     @Override
     protected void onPause() {
+
         super.onPause();
         finish();
+        //Intent goTo  = new Intent("com.project.myschedule.MYACTIVITY");
+        //startActivity(goTo);
     }
 }
