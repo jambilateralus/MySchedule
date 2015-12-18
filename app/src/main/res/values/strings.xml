@@ -7,5 +7,6 @@
     <string name="title_activity_splash">Splash</string>
     <string name="title_activity_add">Add</string>
     <string name="title_activity_calender_view">CalenderView</string>
+    <string name="title_activity_task_list">TaskListActivity</string>
 
 </resources>

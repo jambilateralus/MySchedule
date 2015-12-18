@@ -75,6 +75,11 @@ public class Add extends Activity {
         });
     }
 
+    //Toaster
+    private void ToastMessage(String msg){
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
     // Register  FromDatePickerDialog listener
     private DatePickerDialog.OnDateSetListener mDateSetListener =
             new DatePickerDialog.OnDateSetListener() {
@@ -142,10 +147,20 @@ public class Add extends Activity {
 
 
             //Check if Schedule title is empty and toast an error message.
+            DataBase db = new DataBase(this);
+            db.open();
             title = schedule_title.getText().toString();
             if (title.matches("")) {
-                Toast.makeText(this, "Invalid schedule name.", Toast.LENGTH_SHORT).show();
-            }else{
+                ToastMessage("Invalid schedule name");
+            }
+
+            //if the Schedule title already exists
+            else if(db.checkScheduleTitle(title)){
+                ToastMessage("Schedule "+title + " already exists");
+                schedule_title.setText("");
+            }
+
+            else{
                 boolean ditItWork =true;
                 try {
                     //database action add sechudule
@@ -169,6 +184,10 @@ public class Add extends Activity {
                     }
                 }
                 Intent Goto = new Intent("com.project.myschedule.MYACTIVITY");
+                //startActivity(Goto);
+
+                Goto.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                overridePendingTransition(0, 0);
                 startActivity(Goto);
             }
         }
@@ -179,9 +198,9 @@ public class Add extends Activity {
     @Override
     protected void onPause() {
 
+        overridePendingTransition(0, 0);
+
         super.onPause();
         finish();
-        //Intent goTo  = new Intent("com.project.myschedule.MYACTIVITY");
-        //startActivity(goTo);
     }
 }

@@ -7,10 +7,13 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class MyActivity extends Activity {
@@ -24,26 +27,35 @@ public class MyActivity extends Activity {
         ListView lv = (ListView) findViewById(R.id.listView);
         DataBase db = new DataBase(this);
         db.open();
-        String[] scheduleTile = new String[db.getScheduleCount()];
+        final String[] scheduleTitle = new String[db.getScheduleCount()];
         String[] scheduleTo = new String[db.getScheduleCount()];
         String[] scheduleFrom = new String[db.getScheduleCount()];
 
 
-       //Load database contents to arrays
+        //Load database contents to arrays
         for (int i = 0; i < db.getScheduleCount(); i++) {
-            scheduleTile[i] = db.getScheduleTitle(i);
+            scheduleTitle[i] = db.getScheduleTitle(i);
             scheduleTo[i] = db.getScheduleToDate(i);
             scheduleFrom[i] = db.getScheduleFromDate(i);
         }
         db.close();
 
 
-
         //set custom adapter to list view
-        ScheduleAdapter adpt = new ScheduleAdapter(this,scheduleTile,scheduleTo,scheduleFrom);
+        ScheduleAdapter adpt = new ScheduleAdapter(this, scheduleTitle, scheduleTo, scheduleFrom);
         lv.setAdapter(adpt);
 
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Toast.makeText(getBaseContext(), "You have selected item : " + scheduleTitle[position], Toast.LENGTH_SHORT).show();
 
+                Intent taskList = new Intent(view.getContext(),TaskListActivity.class);
+
+                startActivity(taskList);
+
+            }
+        });
 
 
     }
@@ -70,7 +82,6 @@ public class MyActivity extends Activity {
         if (id == R.id.action_settings) {
             return true;
         } else if (id == R.id.action_add) {
-
             startActivity(add);
         } else if (id == R.id.action_calender) {
 
@@ -79,10 +90,7 @@ public class MyActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        //finish();
-    }
-}
 
+
+
+}

@@ -113,7 +113,7 @@ private static class DbHelper extends SQLiteOpenHelper{
     //Get schedule from date
     public String getScheduleFromDate(int index){
         String[] columns = new String[]{KEY_ROWID, KEY_TITTLE, KEY_FROM, KEY_TILL};
-        Cursor c = ourDatabase.query(DATABASE_TABLE,columns,null,null,null,null,null);
+        Cursor c = ourDatabase.query(DATABASE_TABLE, columns, null, null, null, null, null);
         c.moveToPosition(index);
         int iFrom =c.getColumnIndex(KEY_FROM);
         return c.getString(iFrom);
@@ -127,6 +127,25 @@ private static class DbHelper extends SQLiteOpenHelper{
         c.moveToPosition(index);
         int iTill =c.getColumnIndex(KEY_TILL);
         return c.getString(iTill);
+    }
+
+    //check if schedule title already exist... returns true if entry already exists on database
+    public boolean checkScheduleTitle(String title){
+        String[] columns = new String[]{KEY_ROWID, KEY_TITTLE, KEY_FROM, KEY_TILL};
+        Cursor c = ourDatabase.query(DATABASE_TABLE, columns, null, null, null, null, null);
+
+        boolean result = false;
+
+        for (int i=0; i<c.getCount(); i++){
+            c.moveToPosition(i);
+            int iTitle =c.getColumnIndex(KEY_TITTLE);
+            if(title.equals(c.getString(iTitle))){
+                result = true;
+
+            }
+        }
+        return result;
+
     }
 
 }//end DataBAse
