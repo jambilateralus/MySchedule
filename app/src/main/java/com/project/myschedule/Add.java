@@ -3,8 +3,10 @@ package com.project.myschedule;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -142,6 +144,8 @@ public class Add extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
 
         if (id == R.id.action_done) {
 
@@ -152,12 +156,16 @@ public class Add extends Activity {
             title = schedule_title.getText().toString();
             if (title.matches("")) {
                 ToastMessage("Invalid schedule name");
+                // Vibrate for 100 milliseconds
+                v.vibrate(100);
             }
 
             //if the Schedule title already exists
             else if(db.checkScheduleTitle(title)){
                 ToastMessage("Schedule "+title + " already exists");
                 schedule_title.setText("");
+                // Vibrate for 100 milliseconds
+                v.vibrate(100);
             }
 
             else{
