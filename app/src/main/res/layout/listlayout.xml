@@ -24,5 +24,25 @@
         android:id="@+id/schedule_to_date"
         android:layout_marginTop="4dp"/>
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:id="@+id/button" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/button2" />
+        />
+
+    </RelativeLayout>
+
 
 </LinearLayout>

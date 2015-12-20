@@ -52,6 +52,8 @@ public class MyActivity extends Activity {
 
                 Intent taskList = new Intent(view.getContext(),TaskListActivity.class);
 
+                taskList.putExtra("hello",scheduleTitle[position]);
+
                 startActivity(taskList);
 
             }
