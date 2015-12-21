@@ -14,7 +14,7 @@ import java.util.Date;
  * Created by sushil on 10/25/15.
  */
 public class DataBase {
-    //Private variables and constant variables for schedule table
+    //Private variables and constant variables for schedule tables
     public static  final String KEY_ROWID = "schedule_id";
     public static  final String KEY_TITTLE = "schedule_title";
     public static  final String KEY_FROM = "date_from";
