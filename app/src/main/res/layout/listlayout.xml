@@ -24,7 +24,7 @@
         android:id="@+id/schedule_to_date"
         android:layout_marginTop="4dp"/>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -32,17 +32,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1"
+            android:focusable="false"
             android:id="@+id/button" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2"
-            android:layout_alignParentEnd="true"
+            android:layout_alignLeft="@id/button"
+            android:focusable="false"
             android:id="@+id/button2" />
         />
 
-    </RelativeLayout>
+    </LinearLayout>
 
 
 </LinearLayout>
