@@ -39,7 +39,6 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/person_age"
                 android:layout_toRightOf="@+id/person_photo"
-                android:layout_below="@+id/textView"
                 />
 
         </RelativeLayout>
