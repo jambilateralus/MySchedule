@@ -14,7 +14,7 @@ public class TaskListActivity extends Activity {
 
         /////
         TextView tv = (TextView) findViewById(R.id.textView);
-        tv.setText(this.getIntent().getStringExtra("hello"));
+        tv.setText(this.getIntent().getStringExtra("index"));
 
     }
 

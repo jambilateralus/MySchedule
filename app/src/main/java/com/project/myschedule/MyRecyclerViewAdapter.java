@@ -3,6 +3,8 @@ package com.project.myschedule;
 /**
  * Created by sushil on 12/24/15.
  */
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +20,7 @@ public class MyRecyclerViewAdapter extends RecyclerView
     private static String LOG_TAG = "MyRecyclerViewAdapter";
     private ArrayList<DataObject> mDataset;
     private static MyClickListener myClickListener;
+
 
     public static class DataObjectHolder extends RecyclerView.ViewHolder
             implements View
@@ -35,9 +38,17 @@ public class MyRecyclerViewAdapter extends RecyclerView
             itemView.setOnClickListener(this);
         }
 
+
+
+
         @Override
         public void onClick(View v) {
-            //myClickListener.onItemClick(getAdapterPosition(), v);//
+            myClickListener.onItemClick(getPosition(), v);
+            Log.i(LOG_TAG, "hmmmmmmm " + getPosition());
+            Context context = itemView.getContext();
+            Intent intent = new Intent(context, TaskListActivity.class);
+            intent.putExtra("index",""+getPosition());
+            context.startActivity(intent);
         }
     }
 
@@ -84,4 +95,6 @@ public class MyRecyclerViewAdapter extends RecyclerView
     public interface MyClickListener {
         void onItemClick(int position, View v);
     }
+
+
 }

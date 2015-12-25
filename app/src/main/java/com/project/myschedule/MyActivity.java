@@ -20,6 +20,7 @@ public class MyActivity extends Activity {
     private static String LOG_TAG = "CardViewActivity";
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +78,8 @@ public class MyActivity extends Activity {
         });
     }
 
+
+
     private ArrayList<DataObject> getDataSet() {
         ArrayList results = new ArrayList<DataObject>();
         DataBase db = new DataBase(this.getBaseContext());
@@ -88,5 +91,8 @@ public class MyActivity extends Activity {
         db.close();
         return results;
     }
+
+
+
 
 }
