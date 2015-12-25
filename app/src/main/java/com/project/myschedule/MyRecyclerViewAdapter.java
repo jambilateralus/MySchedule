@@ -22,13 +22,15 @@ public class MyRecyclerViewAdapter extends RecyclerView
     public static class DataObjectHolder extends RecyclerView.ViewHolder
             implements View
             .OnClickListener {
-        TextView label;
-        TextView dateTime;
+        TextView scheduleTitle;
+        TextView toDate;
+        TextView fromDate;
 
         public DataObjectHolder(View itemView) {
             super(itemView);
-            label = (TextView) itemView.findViewById(R.id.textView);
-            //dateTime = (TextView) itemView.findViewById(R.id.textView2);
+            scheduleTitle = (TextView) itemView.findViewById(R.id.schedule_title);
+            toDate = (TextView) itemView.findViewById(R.id.schedule_to_date);
+            fromDate = (TextView) itemView.findViewById(R.id.schedule_from_date);
             Log.i(LOG_TAG, "Adding Listener");
             itemView.setOnClickListener(this);
         }
@@ -59,8 +61,9 @@ public class MyRecyclerViewAdapter extends RecyclerView
 
     @Override
     public void onBindViewHolder(DataObjectHolder holder, int position) {
-        holder.label.setText(mDataset.get(position).getmText1());
-        //holder.dateTime.setText(mDataset.get(position).getmText2());
+        holder.scheduleTitle.setText(mDataset.get(position).getScheduleTitle());
+        holder.toDate.setText(mDataset.get(position).getToDate());
+        holder.fromDate.setText(mDataset.get(position).getFromDate());
     }
 
     public void addItem(DataObject dataObj, int index) {
@@ -79,6 +82,6 @@ public class MyRecyclerViewAdapter extends RecyclerView
     }
 
     public interface MyClickListener {
-        public void onItemClick(int position, View v);
+        void onItemClick(int position, View v);
     }
 }

@@ -4,27 +4,34 @@ package com.project.myschedule;
  * Created by sushil on 12/24/15.
  */
 public class DataObject {
-    private String mText1;
-    private String mText2;
+    private String scheduleTitle;
+    private String toDate;
+    private  String fromDate;
 
-    DataObject (String text1, String text2){
-        mText1 = text1;
-        mText2 = text2;
+    DataObject (String scheduleTitle, String toDate, String fromDate){
+        this.scheduleTitle = scheduleTitle;
+        this.toDate = toDate;
+        this.fromDate = fromDate;
     }
 
-    public String getmText1() {
-        return mText1;
+    public String getScheduleTitle() {return scheduleTitle;}
+
+    public void setScheduleTitle(String scheduleTitle) {
+        this.scheduleTitle = scheduleTitle;
     }
 
-    public void setmText1(String mText1) {
-        this.mText1 = mText1;
+    public String getToDate() {
+        return toDate;
     }
 
-    public String getmText2() {
-        return mText2;
+    public void setToDate(String toDate) {
+        this.toDate = toDate;
     }
 
-    public void setmText2(String mText2) {
-        this.mText2 = mText2;
-    }
+    public String getFromDate(){return fromDate;}
+
+    public void  setFromDate(String fromDate){this.fromDate = fromDate;}
+
+
+
 }

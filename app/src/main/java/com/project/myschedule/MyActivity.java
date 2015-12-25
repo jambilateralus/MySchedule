@@ -2,21 +2,13 @@ package com.project.myschedule;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.CursorAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 import java.util.ArrayList;
 
 
@@ -33,55 +25,12 @@ public class MyActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_view);
 
-
-
-
-
-        //ListView lv = (ListView) findViewById(R.id.listView);
-        DataBase db = new DataBase(this);
-        db.open();
-        final String[] scheduleTitle = new String[db.getScheduleCount()];
-        String[] scheduleTo = new String[db.getScheduleCount()];
-        String[] scheduleFrom = new String[db.getScheduleCount()];
-
-
-        ArrayList<String> list = new ArrayList<String>();
-        //Load database contents to arrays
-        for (int i = 0; i < db.getScheduleCount(); i++) {
-            scheduleTitle[i] = db.getScheduleTitle(i);
-            scheduleTo[i] = db.getScheduleToDate(i);
-            scheduleFrom[i] = db.getScheduleFromDate(i);
-            list.add(db.getScheduleTitle(i));
-        }
-        db.close();
-
-
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new MyRecyclerViewAdapter(getDataSet());
         mRecyclerView.setAdapter(mAdapter);
-
-        //set custom adapter to list view
-        //ScheduleAdapter adpt = new ScheduleAdapter(this, scheduleTitle, scheduleTo, scheduleFrom);
-        //lv.setAdapter(adpt);
-
-        //lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-          //  @Override
-            //public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Toast.makeText(getBaseContext(), "You have selected item : " + scheduleTitle[position], Toast.LENGTH_SHORT).show();
-
-              //  Intent taskList = new Intent(view.getContext(),TaskListActivity.class);
-
-                //taskList.putExtra("hello",scheduleTitle[position]);
-
-                //startActivity(taskList);
-
-            //}
-        //});
-
-
     }
 
 
@@ -130,11 +79,13 @@ public class MyActivity extends Activity {
 
     private ArrayList<DataObject> getDataSet() {
         ArrayList results = new ArrayList<DataObject>();
-        for (int index = 0; index < 20; index++) {
-            DataObject obj = new DataObject("Some Primary Text " + index,
-                    "Secondary " + index);
+        DataBase db = new DataBase(this.getBaseContext());
+        db.open();
+        for (int index = 0; index < db.getScheduleCount(); index++) {
+            DataObject obj = new DataObject(db.getScheduleTitle(index),db.getScheduleToDate(index),db.getScheduleFromDate(index));
             results.add(index, obj);
         }
+        db.close();
         return results;
     }
 
