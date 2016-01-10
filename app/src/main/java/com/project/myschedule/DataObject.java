@@ -1,5 +1,7 @@
 package com.project.myschedule;
 
+import android.content.Intent;
+
 /**
  * Created by sushil on 12/24/15.
  */
@@ -7,11 +9,13 @@ public class DataObject {
     private String scheduleTitle;
     private String toDate;
     private  String fromDate;
+    private  long scheduleId;
 
-    DataObject (String scheduleTitle, String toDate, String fromDate){
+    DataObject (String scheduleTitle, String toDate, String fromDate, long scheduleId){
         this.scheduleTitle = scheduleTitle;
         this.toDate = toDate;
         this.fromDate = fromDate;
+        this.scheduleId = scheduleId;
     }
 
     public String getScheduleTitle() {return scheduleTitle;}
@@ -30,7 +34,12 @@ public class DataObject {
 
     public String getFromDate(){return fromDate;}
 
+    public Long getScheduleId(){return scheduleId;}
+
     public void  setFromDate(String fromDate){this.fromDate = fromDate;}
+
+    public void refresh(){
+    }
 
 
 

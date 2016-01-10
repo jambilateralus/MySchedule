@@ -64,7 +64,7 @@ private static class DbHelper extends SQLiteOpenHelper{
 
     //constructor
     public DataBase(Context c){
-        ourContext =c;
+        this.ourContext =c;
 
     }
 
@@ -129,6 +129,16 @@ private static class DbHelper extends SQLiteOpenHelper{
         return c.getString(iTill);
     }
 
+    //get schedule id
+    public long getScheduleId(int index){
+        String[] columns = new String[]{KEY_ROWID, KEY_TITTLE, KEY_FROM, KEY_TILL};
+        Cursor c = ourDatabase.query(DATABASE_TABLE,columns,null,null,null,null,null);
+        c.moveToPosition(index);
+        int iId = c.getColumnIndex(KEY_ROWID);
+        return c.getLong(iId);
+
+    }
+
     //check if schedule title already exist... returns true if entry already exists on database
     public boolean checkScheduleTitle(String title){
         String[] columns = new String[]{KEY_ROWID, KEY_TITTLE, KEY_FROM, KEY_TILL};
@@ -146,6 +156,11 @@ private static class DbHelper extends SQLiteOpenHelper{
         }
         return result;
 
+    }
+
+    //delete schedule from schedule table
+    public void deleteSchedule(long id){
+        ourDatabase.delete(DATABASE_TABLE,KEY_ROWID + "=" +id,null);
     }
 
 }//end DataBAse

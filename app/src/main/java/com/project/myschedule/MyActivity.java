@@ -1,6 +1,7 @@
 package com.project.myschedule;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,6 +19,7 @@ public class MyActivity extends Activity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private static String LOG_TAG = "CardViewActivity";
+    static Context appContext;
 
 
 
@@ -32,6 +34,8 @@ public class MyActivity extends Activity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new MyRecyclerViewAdapter(getDataSet());
         mRecyclerView.setAdapter(mAdapter);
+
+        appContext = getApplicationContext();
     }
 
 
@@ -85,7 +89,7 @@ public class MyActivity extends Activity {
         DataBase db = new DataBase(this.getBaseContext());
         db.open();
         for (int index = 0; index < db.getScheduleCount(); index++) {
-            DataObject obj = new DataObject(db.getScheduleTitle(index),db.getScheduleToDate(index),db.getScheduleFromDate(index));
+            DataObject obj = new DataObject(db.getScheduleTitle(index),db.getScheduleToDate(index),db.getScheduleFromDate(index),db.getScheduleId(index));
             results.add(index, obj);
         }
         db.close();

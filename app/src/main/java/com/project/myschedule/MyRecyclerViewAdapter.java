@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -28,12 +29,19 @@ public class MyRecyclerViewAdapter extends RecyclerView
         TextView scheduleTitle;
         TextView toDate;
         TextView fromDate;
+        Button edit;
+        Button delete;
 
         public DataObjectHolder(View itemView) {
             super(itemView);
             scheduleTitle = (TextView) itemView.findViewById(R.id.schedule_title);
             toDate = (TextView) itemView.findViewById(R.id.schedule_to_date);
             fromDate = (TextView) itemView.findViewById(R.id.schedule_from_date);
+            edit = (Button) itemView.findViewById(R.id.btn_edit);
+            delete = (Button) itemView.findViewById(R.id.btn_delete);
+            DataBase delete = new DataBase(MyActivity.appContext);
+
+            //action to button
             Log.i(LOG_TAG, "Adding Listener");
             itemView.setOnClickListener(this);
         }
@@ -71,10 +79,21 @@ public class MyRecyclerViewAdapter extends RecyclerView
     }
 
     @Override
-    public void onBindViewHolder(DataObjectHolder holder, int position) {
+    public void onBindViewHolder(DataObjectHolder holder, final int position) {
         holder.scheduleTitle.setText(mDataset.get(position).getScheduleTitle());
         holder.toDate.setText(mDataset.get(position).getToDate());
         holder.fromDate.setText(mDataset.get(position).getFromDate());
+
+        //action to delete button
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DataBase delete = new DataBase(MyActivity.appContext);
+                delete.open();
+                delete.deleteSchedule(mDataset.get(position).getScheduleId());
+                delete.close();
+            }
+        });
     }
 
     public void addItem(DataObject dataObj, int index) {
@@ -98,3 +117,5 @@ public class MyRecyclerViewAdapter extends RecyclerView
 
 
 }
+
+
