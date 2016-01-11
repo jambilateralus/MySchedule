@@ -5,6 +5,7 @@ package com.project.myschedule;
  */
 import android.content.Context;
 import android.content.Intent;
+import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -92,8 +93,11 @@ public class MyRecyclerViewAdapter extends RecyclerView
                 delete.open();
                 delete.deleteSchedule(mDataset.get(position).getScheduleId());
                 delete.close();
+                deleteItem(position);
+                //MyRecyclerViewAdapter.notifyDataSetChanged();
             }
         });
+
     }
 
     public void addItem(DataObject dataObj, int index) {
@@ -106,6 +110,8 @@ public class MyRecyclerViewAdapter extends RecyclerView
         notifyItemRemoved(index);
     }
 
+
+
     @Override
     public int getItemCount() {
         return mDataset.size();
@@ -115,6 +121,12 @@ public class MyRecyclerViewAdapter extends RecyclerView
         void onItemClick(int position, View v);
     }
 
+
+    public void updateResults(ArrayList<DataObject> results) {
+        mDataset = results;
+        //Triggers the list update
+        notifyDataSetChanged();
+    }
 
 }
 
