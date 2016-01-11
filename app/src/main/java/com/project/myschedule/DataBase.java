@@ -20,9 +20,23 @@ public class DataBase {
     public static  final String KEY_FROM = "date_from";
     public static  final String KEY_TILL = "date_till";
 
+    //private variables and constant vriables for task table
+    public static final String TASK_ID = "task_id";
+    public static final String TASK_COL1= "schedule_id";
+    public static final String TASK_COL2 = "task_name";
+    public static final String TASK_COL3 = "task_srt_time";
+    public static final String TASK_COL4 = "task_end_time";
+    public static final String TASK_COL5= "task_icon";
+    public static final String TASK_COL6= "task_priority";
+    public static final String TASK_COL7= "task_desp";
+
+
+
     //variables for database
     private static final String DATABASE_NAME ="MySchedule";
     private static final String DATABASE_TABLE ="schedule";
+    private static final String DATABASE_TABLE_TASK ="task";
+
     private static final int DATABASE_VERSION =1;
 
    //instances of DbHelper class and variables
@@ -51,12 +65,26 @@ private static class DbHelper extends SQLiteOpenHelper{
                                KEY_TILL +" TEXT NOT NULL);"
         );
 
+        sqLiteDatabase.execSQL("CREATE TABLE " +DATABASE_TABLE_TASK + "(" +
+                        TASK_COL1 + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
+                        TASK_COL2 +" INTEGER NOT NULL, "+
+                        TASK_COL3 +" TEXT NOT NULL, "+
+                        TASK_COL4 +" TEXT NOT NULL, "+
+                        TASK_COL5 +" TEXT NOT NULL, "+
+                        TASK_COL6 +" BOOLEAN NOT NULL, "+
+                        TASK_COL7 +" TEXT NOT NULL" +
+                        "FOREIGN KEY(" +TASK_COL2 +")" +
+                        "REFERENCES "+DATABASE_TABLE +"(" +KEY_ROWID +") "+
+                        ");"
+        );
+
     }
 
     //if already have DAtabase in system
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " +DATABASE_TABLE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " +DATABASE_TABLE_TASK);
         onCreate(sqLiteDatabase);
 
     }
@@ -80,7 +108,8 @@ private static class DbHelper extends SQLiteOpenHelper{
         ourHelper.close();
     }
 
-    //insert query
+
+    //insert query forschedule table
     public long addSchedule(String title, String from, String till){
         ContentValues cv = new ContentValues();
         cv.put(KEY_TITTLE,title);
@@ -158,9 +187,33 @@ private static class DbHelper extends SQLiteOpenHelper{
 
     }
 
+
     //delete schedule from schedule table
     public void deleteSchedule(long id){
         ourDatabase.delete(DATABASE_TABLE,KEY_ROWID + "=" +id,null);
     }
+
+
+
+    //methods for task table
+
+    //add task in task table
+    public long addTask(String name, int sch_id, String srtTime, String endTime, String icon, boolean priority, String desp){
+        ContentValues cv = new ContentValues();
+        cv.put(TASK_COL1,sch_id);
+        cv.put(TASK_COL2, String.valueOf(name));
+        cv.put(TASK_COL3, String.valueOf(srtTime));
+        cv.put(TASK_COL4, String.valueOf(endTime));
+        cv.put(TASK_COL5, String.valueOf(icon));
+        cv.put(TASK_COL6, priority);
+        cv.put(TASK_COL7,desp );
+        return ourDatabase.insert(DATABASE_TABLE_TASK,null,cv);
+
+    }
+
+
+
+
+
 
 }//end DataBAse
