@@ -32,12 +32,14 @@ public class DataBase {
 
 
 
-    //variables for database
+    //variables for DATABASE
     private static final String DATABASE_NAME ="MySchedule";
-    private static final String DATABASE_TABLE ="schedule";
-    private static final String DATABASE_TABLE_TASK ="task";
-
     private static final int DATABASE_VERSION =1;
+
+    //variables for TABLES
+    private static final String TABLE_SCHEDULE ="schedule";
+    private static final String TABLE_TASK ="task";
+
 
    //instances of DbHelper class and variables
     private DbHelper ourHelper;
@@ -58,33 +60,34 @@ private static class DbHelper extends SQLiteOpenHelper{
     //method to create database for first time
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL("CREATE TABLE " +DATABASE_TABLE + "(" +
+        sqLiteDatabase.execSQL("CREATE TABLE " +TABLE_SCHEDULE + "(" +
                                KEY_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
                                KEY_TITTLE +" TEXT NOT NULL, "+
                                KEY_FROM +" TEXT NOT NULL, "+
                                KEY_TILL +" TEXT NOT NULL);"
         );
 
-        /*sqLiteDatabase.execSQL("CREATE TABLE " +DATABASE_TABLE_TASK + "(" +
-                        TASK_COL1 + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
-                        TASK_COL2 +" INTEGER NOT NULL, "+
+        sqLiteDatabase.execSQL("CREATE TABLE " +TABLE_TASK + "(" +
+                        TASK_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
+                        TASK_COL1 +" INTEGER NOT NULL, "+
+                        TASK_COL2 +" TEXT NOT NULL, "+
                         TASK_COL3 +" TEXT NOT NULL, "+
                         TASK_COL4 +" TEXT NOT NULL, "+
                         TASK_COL5 +" TEXT NOT NULL, "+
-                        TASK_COL6 +" BOOLEAN NOT NULL, "+
-                        TASK_COL7 +" TEXT NOT NULL" +
-                        "FOREIGN KEY(" +TASK_COL2 +")" +
-                        "REFERENCES "+DATABASE_TABLE +"(" +KEY_ROWID +") "+
+                        TASK_COL6 +" INTEGER NOT NULL, " +
+                        TASK_COL7 +" TEXT NOT NULL, " +
+                        " FOREIGN KEY(" +TASK_COL2 +")" +
+                        " REFERENCES "+TABLE_SCHEDULE +"(" +KEY_ROWID +") "+
                         ");"
-        );*/
+        );
 
     }
 
     //if already have DAtabase in system
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " +DATABASE_TABLE);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " +DATABASE_TABLE_TASK);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " +TABLE_SCHEDULE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " +TABLE_TASK);
         onCreate(sqLiteDatabase);
 
     }
@@ -115,7 +118,7 @@ private static class DbHelper extends SQLiteOpenHelper{
         cv.put(KEY_TITTLE,title);
         cv.put(KEY_FROM, String.valueOf(from));
         cv.put(KEY_TILL, String.valueOf(till));
-        return ourDatabase.insert(DATABASE_TABLE,null,cv);
+        return ourDatabase.insert(TABLE_SCHEDULE,null,cv);
 
     }
 
@@ -123,14 +126,14 @@ private static class DbHelper extends SQLiteOpenHelper{
     //Get total number of schedule
     public int getScheduleCount(){
         String[] columns = new String[]{KEY_ROWID, KEY_TITTLE, KEY_FROM, KEY_TILL};
-        Cursor c = ourDatabase.query(DATABASE_TABLE, columns, null, null, null, null, null);
+        Cursor c = ourDatabase.query(TABLE_SCHEDULE, columns, null, null, null, null, null);
         return c.getCount();
     }
 
     //Get schedule title
     public String getScheduleTitle(int position){
         String[] columns = new String[]{KEY_ROWID, KEY_TITTLE, KEY_FROM, KEY_TILL};
-        Cursor c = ourDatabase.query(DATABASE_TABLE, columns, null, null, null, null, null);
+        Cursor c = ourDatabase.query(TABLE_SCHEDULE, columns, null, null, null, null, null);
         int iTitle =c.getColumnIndex(KEY_TITTLE);
         c.moveToPosition(position);
         return c.getString(iTitle);
@@ -142,7 +145,7 @@ private static class DbHelper extends SQLiteOpenHelper{
     //Get schedule from date
     public String getScheduleFromDate(int index){
         String[] columns = new String[]{KEY_ROWID, KEY_TITTLE, KEY_FROM, KEY_TILL};
-        Cursor c = ourDatabase.query(DATABASE_TABLE, columns, null, null, null, null, null);
+        Cursor c = ourDatabase.query(TABLE_SCHEDULE, columns, null, null, null, null, null);
         c.moveToPosition(index);
         int iFrom =c.getColumnIndex(KEY_FROM);
         return c.getString(iFrom);
@@ -152,7 +155,7 @@ private static class DbHelper extends SQLiteOpenHelper{
     //Get schedule to date
     public String getScheduleToDate(int index){
         String[] columns = new String[]{KEY_ROWID, KEY_TITTLE, KEY_FROM, KEY_TILL};
-        Cursor c = ourDatabase.query(DATABASE_TABLE,columns,null,null,null,null,null);
+        Cursor c = ourDatabase.query(TABLE_SCHEDULE,columns,null,null,null,null,null);
         c.moveToPosition(index);
         int iTill =c.getColumnIndex(KEY_TILL);
         return c.getString(iTill);
@@ -161,7 +164,7 @@ private static class DbHelper extends SQLiteOpenHelper{
     //get schedule id
     public long getScheduleId(int index){
         String[] columns = new String[]{KEY_ROWID, KEY_TITTLE, KEY_FROM, KEY_TILL};
-        Cursor c = ourDatabase.query(DATABASE_TABLE,columns,null,null,null,null,null);
+        Cursor c = ourDatabase.query(TABLE_SCHEDULE,columns,null,null,null,null,null);
         c.moveToPosition(index);
         int iId = c.getColumnIndex(KEY_ROWID);
         return c.getLong(iId);
@@ -171,7 +174,7 @@ private static class DbHelper extends SQLiteOpenHelper{
     //check if schedule title already exist... returns true if entry already exists on database
     public boolean checkScheduleTitle(String title){
         String[] columns = new String[]{KEY_ROWID, KEY_TITTLE, KEY_FROM, KEY_TILL};
-        Cursor c = ourDatabase.query(DATABASE_TABLE, columns, null, null, null, null, null);
+        Cursor c = ourDatabase.query(TABLE_SCHEDULE, columns, null, null, null, null, null);
 
         boolean result = false;
 
@@ -190,7 +193,7 @@ private static class DbHelper extends SQLiteOpenHelper{
 
     //delete schedule from schedule table
     public void deleteSchedule(long id){
-        ourDatabase.delete(DATABASE_TABLE,KEY_ROWID + "=" +id,null);
+        ourDatabase.delete(TABLE_SCHEDULE,KEY_ROWID + "=" +id,null);
     }
 
 
@@ -198,7 +201,7 @@ private static class DbHelper extends SQLiteOpenHelper{
     //methods for task table
 
     //add task in task table
-    /*public long addTask(String name, int sch_id, String srtTime, String endTime, String icon, boolean priority, String desp){
+    public long addTask(String name, int sch_id, String srtTime, String endTime, String icon, boolean priority, String desp){
         ContentValues cv = new ContentValues();
         cv.put(TASK_COL1,sch_id);
         cv.put(TASK_COL2, String.valueOf(name));
@@ -207,9 +210,9 @@ private static class DbHelper extends SQLiteOpenHelper{
         cv.put(TASK_COL5, String.valueOf(icon));
         cv.put(TASK_COL6, priority);
         cv.put(TASK_COL7,desp );
-        return ourDatabase.insert(DATABASE_TABLE_TASK,null,cv);
+        return ourDatabase.insert(TABLE_TASK,null,cv);
 
-    }*/
+    }
 
 
 
