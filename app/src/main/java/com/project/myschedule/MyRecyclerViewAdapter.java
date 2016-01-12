@@ -9,10 +9,15 @@ import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -30,16 +35,14 @@ public class MyRecyclerViewAdapter extends RecyclerView
         TextView scheduleTitle;
         TextView toDate;
         TextView fromDate;
-        Button edit;
-        Button delete;
+        ImageButton menu;
 
         public DataObjectHolder(View itemView) {
             super(itemView);
             scheduleTitle = (TextView) itemView.findViewById(R.id.schedule_title);
             toDate = (TextView) itemView.findViewById(R.id.schedule_to_date);
             fromDate = (TextView) itemView.findViewById(R.id.schedule_from_date);
-            edit = (Button) itemView.findViewById(R.id.btn_edit);
-            delete = (Button) itemView.findViewById(R.id.btn_delete);
+            menu = (ImageButton) itemView.findViewById(R.id.menu_button);
             DataBase delete = new DataBase(MyActivity.appContext);
 
             //action to button
@@ -85,18 +88,53 @@ public class MyRecyclerViewAdapter extends RecyclerView
         holder.toDate.setText(mDataset.get(position).getToDate());
         holder.fromDate.setText(mDataset.get(position).getFromDate());
 
-        //action to delete button
-        holder.delete.setOnClickListener(new View.OnClickListener() {
+
+
+        //menu button on click
+        holder.menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DataBase delete = new DataBase(MyActivity.appContext);
-                delete.open();
-                delete.deleteSchedule(mDataset.get(position).getScheduleId());
-                delete.close();
-                deleteItem(position);
-                //MyRecyclerViewAdapter.notifyDataSetChanged();
+                PopupMenu popup = new PopupMenu(MyActivity.appContext, view);
+                MenuInflater inflater = popup.getMenuInflater();
+                inflater.inflate(R.menu.actions, popup.getMenu());
+                popup.show();
+                popup.setOnMenuItemClickListener(new  PopupMenu.OnMenuItemClickListener(){
+                    public  boolean onMenuItemClick(MenuItem item){
+                        Toast.makeText(MyActivity.appContext,
+                                "Clicked popup menu item " + item.getTitle(),
+                                Toast.LENGTH_SHORT).show();
+
+
+                        switch (item.getItemId()){
+
+                            case R.id.edit_schedule:
+                                ///
+                                return true;
+                            //Delete menu
+                            case R.id.delete_schedule:
+                                DataBase delete = new DataBase(MyActivity.appContext);
+                                delete.open();
+                                delete.deleteSchedule(mDataset.get(position).getScheduleId());
+                                delete.close();
+                                deleteItem(position);
+                                return true;
+
+                        }
+
+                        return true;
+                    }
+
+                });
             }
+
+
+
+
+
         });
+
+
+
 
     }
 
@@ -126,6 +164,14 @@ public class MyRecyclerViewAdapter extends RecyclerView
         mDataset = results;
         //Triggers the list update
         notifyDataSetChanged();
+    }
+
+
+    public void showPopup(View v) {
+        PopupMenu popup = new PopupMenu(MyActivity.appContext,v);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.actions, popup.getMenu());
+        popup.show();
     }
 
 }

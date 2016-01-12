@@ -39,8 +39,8 @@ public class TaskRecyclerAdapter extends RecyclerView
             super(itemView);
             taskTitle= (TextView) itemView.findViewById(R.id.schedule_title);
             description= (TextView) itemView.findViewById(R.id.schedule_to_date);
-            toggleNotification= (Button) itemView.findViewById(R.id.btn_edit);
-            startEndTime = (Button) itemView.findViewById(R.id.btn_delete);
+            //toggleNotification= (Button) itemView.findViewById(R.id.btn_edit);
+            //startEndTime = (Button) itemView.findViewById(R.id.btn_delete);
             DataBase delete = new DataBase(MyActivity.appContext);
 
 

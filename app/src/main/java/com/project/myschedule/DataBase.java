@@ -65,7 +65,7 @@ private static class DbHelper extends SQLiteOpenHelper{
                                KEY_TILL +" TEXT NOT NULL);"
         );
 
-        sqLiteDatabase.execSQL("CREATE TABLE " +DATABASE_TABLE_TASK + "(" +
+        /*sqLiteDatabase.execSQL("CREATE TABLE " +DATABASE_TABLE_TASK + "(" +
                         TASK_COL1 + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
                         TASK_COL2 +" INTEGER NOT NULL, "+
                         TASK_COL3 +" TEXT NOT NULL, "+
@@ -76,7 +76,7 @@ private static class DbHelper extends SQLiteOpenHelper{
                         "FOREIGN KEY(" +TASK_COL2 +")" +
                         "REFERENCES "+DATABASE_TABLE +"(" +KEY_ROWID +") "+
                         ");"
-        );
+        );*/
 
     }
 
@@ -198,7 +198,7 @@ private static class DbHelper extends SQLiteOpenHelper{
     //methods for task table
 
     //add task in task table
-    public long addTask(String name, int sch_id, String srtTime, String endTime, String icon, boolean priority, String desp){
+    /*public long addTask(String name, int sch_id, String srtTime, String endTime, String icon, boolean priority, String desp){
         ContentValues cv = new ContentValues();
         cv.put(TASK_COL1,sch_id);
         cv.put(TASK_COL2, String.valueOf(name));
@@ -209,7 +209,7 @@ private static class DbHelper extends SQLiteOpenHelper{
         cv.put(TASK_COL7,desp );
         return ourDatabase.insert(DATABASE_TABLE_TASK,null,cv);
 
-    }
+    }*/
 
 
 
