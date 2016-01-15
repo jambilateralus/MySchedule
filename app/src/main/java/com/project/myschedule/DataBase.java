@@ -214,6 +214,11 @@ private static class DbHelper extends SQLiteOpenHelper{
 
     }
 
+    //delete task from task table
+    public void deleteTask(long id){
+        ourDatabase.delete(TABLE_TASK, TASK_ID + "=" + id, null);
+    }
+
 
 
 
